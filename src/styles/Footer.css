@@ -1,0 +1,11 @@
+footer {
+    position: relative;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    background-color: steelblue;
+    color: white;
+    border-top: 10px solid orange;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
