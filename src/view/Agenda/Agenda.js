@@ -13,7 +13,7 @@ const Materias = () => {
       <h1>MATERIAS</h1>
       <a href="materias-add">
         <Button variant="contained" startIcon={<LibraryBooksIcon />}>
-          Agregar materias
+          Consultar citas
         </Button>
       </a>
     </Content>

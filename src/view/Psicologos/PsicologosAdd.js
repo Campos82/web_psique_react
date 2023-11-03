@@ -1,151 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Content from "../../components/Content";
 import axios from "axios";
-
-// Librerias GRID
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-
-// LIBRERIAS DE ICONOS
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-
-// LIBRERIAS FORMULARIOS
-import { useFormControl } from "@mui/material/FormControl";
-import {
-  FormControl,
-  FormLabel,
-  InputLabel,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  TextField,
-  MenuItem,
-  Select,
-  FormGroup,
-  Checkbox,
-  Button,
-} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const PsicologosAdd = () => {
-  const [nombre, setNombre] = useState("");
-  const [apPaterno, setApPaterno] = useState("");
-  const [apMaterno, setApMaterno] = useState("");
-  const [cveEspecialidad, setCveEspecialidad] = useState("");
+    const [nomPsicologo, setNomPsicologo] = useState("");
+    const [ap1Psicologo, setAp1Psicologo] = useState("");
+    const [ap2Psicologo, setAp2Psicologo] = useState("");
+    const [edadPsicologo, setEdadPsicologo] = useState("");
+    const [sexoPsicologo, setSexoPsicologo] = useState("");
+    const [especialidad, setEspecialidad] = useState("");
 
-  const handleNombre = (event) => {
-    this.setNombre(event.target.value);
-  };
-  const handleApellidoP = (event) => {
-    this.setApPaterno(event.target.value);
-  };
-  const handleApellidoM = (event) => {
-    this.setApMaterno(event.target.value);
-  };
-  const handleEspecialidad = (event) => {
-    this.setCveEspecialidad(event.target.value);
-  };
-  const handleSumbit = (event) => {
-    const maestro = {
-      nombre: this.state.nombre,
-      apellidoP: this.state.apellidoP,
-      apellidoM: this.state.apellidoM,
-      cveEspecialidad: this.state.cveEspecialidad,
+    const navigate = useNavigate();
+
+    const handleNomPsicologo = (event) => {
+        setNomPsicologo(event.target.value);
     };
-  };
-  
-  return (
-    <Content>
-      <form>
-        <h1>CAPTURA DE PSICOLOGOS</h1>
-        <Grid container spacing={2}>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <TextField
-                fullWidth
-                label="Nombre"
-                id="nombre"
-                onChange="{handleNombre}"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <TextField
-                fullWidth
-                label="Apellido paterno"
-                id="apPaterno"
-                onChange="{handleApellidoP}"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={1}></Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <TextField
-                fullWidth
-                label="Apellido materno"
-                id="apMaterno"
-                onChange="{handleApellidoM}"
-              />{" "}
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel id="especialidadLbl">Especialidad</InputLabel>
-              <Select
-                labelId="especialidadLbl"
-                id="cveEspecialidad"
-                name="cveEspecialidad"
-                onChange="{handleEspacialidad}"
-              >
-                <MenuItem key="1" value="ISC">
-                  ISC
-                </MenuItem>
-                <MenuItem key="2" value="TICS">
-                  TICS
-                </MenuItem>
-                <MenuItem key="3 " value="Industrial">
-                  Industrial
-                </MenuItem>
-                <MenuItem key="4 " value="Alimentarias">
-                  Alimentarias
-                </MenuItem>
-                <MenuItem key="5 " value="Gestión">
-                  Gestión
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={5}></Grid>
-          <Grid item xs={2}>
-            <Button
-              variant="contained"
-              color="success"
-              type="submit"
-              onClick="{handleSubmit}"
-            >
-              Guardar
-            </Button>
-          </Grid>
-          <Grid item xs={5}></Grid>
-        </Grid>
-      </form>
-    </Content>
-  );
+    const handleAp1Psicologo = (event) => {
+        setAp1Psicologo(event.target.value);
+    };
+    const handleAp2Psicologo = (event) => {
+        setAp2Psicologo(event.target.value);
+    };
+    const handleEdadPsicologo = (event) => {
+        setEdadPsicologo(event.target.value);
+    };
+    const handleSexoPsicologo = (event) => {
+        setSexoPsicologo(event.target.value);
+    };
+    const handleEspecialidad = (event) => {
+        setEspecialidad(event.target.value);
+    };
+    
+    const handleSubmit = async () => {
+        let psicologo = {
+            nomPsicolgo: nomPsicologo,
+            ap1Psicolgo: ap1Psicologo,
+            ap2Psicolgo: ap2Psicologo,
+            edadPsicolgo: edadPsicologo,
+            sexoPsicolgo: sexoPsicologo,
+            especialidad: especialidad
+        };
+
+        try {
+            const response = await axios.post('http://localhost:4002/psicologos', psicologo);
+            console.log(response.data);
+            navigate('/psicologos');
+        } catch (error) {
+            console.error('Error al enviar la solicitud:', error);
+        }
+    };
+
+    return (
+        <Content>
+            <h1>CAPTURA DE PSICÓLOGO</h1>
+            <label>
+                Psicólogo:
+                <input type="text" name="nomPsicologo" onChange={handleNomPsicologo} />
+            </label>
+            &nbsp; &nbsp;
+            <label>
+                Ap1:
+                <input type="text" name="ap1Psicologo" onChange={handleAp1Psicologo} />
+            </label>
+            &nbsp; &nbsp;
+            <label>
+                Ap2:
+                <input type="text" name="ap2Psicologo" onChange={handleAp2Psicologo} />
+            </label>
+            &nbsp; &nbsp;
+            <label>
+                Edad:
+                <input type="text" name="edadPsicologo" onChange={handleEdadPsicologo} />
+            </label>
+            &nbsp; &nbsp;
+            <label>
+                Sexo:
+                <input type="text" name="sexoPsicologo" onChange={handleSexoPsicologo} />
+            </label>
+            &nbsp; &nbsp;
+            <label>
+                Especialidad:
+                <input type="text" name="especialidad" onChange={handleEspecialidad} />
+            </label>
+            &nbsp; &nbsp; &nbsp;
+            <button onClick={handleSubmit}> Ingresar </button>
+        </Content>
+    );
 };
 
 export default PsicologosAdd;

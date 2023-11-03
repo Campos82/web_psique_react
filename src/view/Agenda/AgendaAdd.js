@@ -4,7 +4,7 @@ import Content from "../../components/Content";
 const MateriasAdd = () => {
   return (
     <Content>
-      <h1>REGISTRAR MATERIAS</h1>
+      <h1>REGISTRAR CONSULTAS</h1>
     </Content>
   );
 };
