@@ -9,6 +9,7 @@ import PsicologosAdd from "../view/Psicologos/PsicologosAdd";
 import PsicologosEdit from "../view/Psicologos/PsicologosEdit";
 import Agenda from "../view/Agenda/Agenda";
 import AgendaAdd from "../view/Agenda/AgendaAdd";
+import AgendaEdit from "../view/Agenda/AgendaEdit";
 import Expedientes from "../view/Expedientes/Expedientes";
 import ExpedientesAdd from "../view/Expedientes/ExpedientesAdd";
 import ExpedientesEdit from "../view/Expedientes/ExpedientesEdit";
@@ -33,6 +34,7 @@ function App() {
 
           <Route path="/agenda" element={<Agenda />}></Route>
           <Route path="/agenda-add" element={<AgendaAdd />}></Route>
+          <Route path="/agenda-edit/:id" element={<AgendaEdit />}></Route>
 
           <Route path="/expedientes" element={<Expedientes />}></Route>
           <Route path="/expedientes-add" element={<ExpedientesAdd />}></Route>
