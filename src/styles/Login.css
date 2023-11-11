@@ -1,0 +1,111 @@
+
+/*
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background:m url(../view/images/img_login.png);
+    background-size: cover;
+    background-position: center;
+}*/
+
+.wrapper{
+    width: 650px;
+    /*background: gray;*/
+    background: rgba(255, 255, 255, .5);
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: aliceblue;
+    border-radius: 10px;
+    padding: 30px 30px;
+}
+
+.wrapper h1{
+    font-size: 36px;
+    text-align: center;
+    color: rgb(131, 131, 131);
+}
+
+.wrapper .input-box{
+    width: 100%;
+    height: 30px;
+    margin: 10px;
+    padding-top: 20px;
+}
+
+.input-box input{
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgb(192, 192, 192);
+    border-radius: 10px;
+    font-size: 16px;
+    color: rgb(95, 95, 95);
+}
+
+.input-box input::placeholder{
+    color: rgb(131, 131, 131);
+}
+
+.wrapper .remember-forgot{
+    display: flex;
+    justify-content:center;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+    padding-top: 50px;
+}
+
+.remember-forgot label input{
+    accent-color: #a3a3a3;
+    margin-right: 3px;
+}
+
+.olvidar a{
+    color: #616161;
+    text-decoration: none;
+}
+
+.olvidar a:hover{
+    text-decoration: underline;
+}
+
+.btn{
+    width: 100px;
+    height: 35px;
+    background: #f3f2f2;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.wrapper .register-link{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link a p{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover{
+    text-decoration: underline;
+}

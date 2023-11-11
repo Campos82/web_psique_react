@@ -13,17 +13,28 @@ const Headerpsicologo = () => {
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/psico-pendientes">Pendientes</a>
+            <a href="/pacientes">Pacientes</a>
           </li>
           <li>
-            <a href="/psico-histCli">Historia Clinica</a>
+            <a href="/agenda">Citas</a>
           </li>
           <li>
-            <a href="/psico-seguimiento">Seguimiento</a>
+            <a href="/expedientes">Expedientes</a>
           </li>
           <li>
-            <a href="/expedientes">Expediente</a>
+            <a href="/psicologos">Psicologos</a>
           </li>
+          <li>
+            <a href="/calendario">Agenda</a>
+          </li>
+        </ul>
+      </div>
+      <div className="navbar-right">
+        <ul>
+          <li>
+            <a href="/login"> Login </a>
+          </li>
+          <li className="navbar-email">psiquedata@accitesz.com</li>
         </ul>
       </div>
     </nav>

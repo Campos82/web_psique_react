@@ -14,22 +14,28 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Layout from "../../containers/Layout";
 
 const Agenda = () => {
-  const[agenda, setAgenda]=useState([]);
+  const [agenda, setAgenda] = useState([]);
 
-  const server='http://localhost:4002';
+  const server = 'http://localhost:4002';
 
-  const getData=async()=>{
-    const {data}=await axios.get(`${server}/agenda`);
+  const getData = async () => {
+    const { data } = await axios.get(`${server}/agenda?filter=` + JSON.stringify({
+      "include": [
+        {
+          "relation": "agenda_pacientes"
+        },
+      ]
+    }));
     console.log(data);
     setAgenda(data);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getData();
-  },[]
-  );
+  }, []);
 
   const DisplayData = agenda.map((info) => {
     return (
@@ -37,12 +43,12 @@ const Agenda = () => {
         key={info.idAgenda}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
-        <TableCell component="th" scope="row">
+        {/*<TableCell component="th" scope="row">
           {info.idAgenda}
-        </TableCell>
-        <TableCell>{     }</TableCell>
-        <TableCell>{     }</TableCell>
-        <TableCell>{     }</TableCell>
+    </TableCell>*/}
+        <TableCell>{info.agenda_pacientes.nomPaciente}</TableCell>
+        <TableCell>{info.agenda_pacientes.ap1Paciente}</TableCell>
+        <TableCell>{info.agenda_pacientes.ap2Paciente}</TableCell>
         <TableCell>{info.comentario}</TableCell>
         <TableCell>{info.fecha}</TableCell>
         <TableCell>{info.hora}</TableCell>
@@ -69,35 +75,38 @@ const Agenda = () => {
   });
 
   return (
-    <Content>
-      <h1> AGENDA </h1>
-      <a href="/agenda-add">
-        <Button variant="contained" startIcon={<PersonAddIcon />}>
-          Programar agenda
-        </Button>
-      </a>
-      <h3>Listado de consultas</h3>
-      <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>No.</TableCell>
-                <TableCell>Nombre</TableCell>
-                <TableCell>Ap1</TableCell>
-                <TableCell>Ap2</TableCell>
-                <TableCell>Comentario</TableCell>
-                <TableCell>Fecha</TableCell>
-                <TableCell>Hora</TableCell>
-                <TableCell>Editar</TableCell>
-                <TableCell>Borrar</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{DisplayData}</TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </Content>
+    <Layout>
+      <Content>
+        <h1> CITAS </h1>
+        <a href="/agenda-add">
+          <Button variant="contained" startIcon={<PersonAddIcon />}>
+            Programar cita
+          </Button>
+        </a>
+        <h3>Citas pendientes</h3>
+        <div>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  {/*<TableCell>No.</TableCell>*/}
+                  <TableCell><h3>Nombre</h3></TableCell>
+                  <TableCell><h3>Ap1</h3></TableCell>
+                  <TableCell><h3>Ap2</h3></TableCell>
+                  <TableCell><h3>Comentario</h3></TableCell>
+                  <TableCell><h3>Fecha</h3></TableCell>
+                  <TableCell><h3>Hora</h3></TableCell>
+                  <TableCell><h3><font color="grey">Editar</font></h3></TableCell>
+                  <TableCell><h3><font color="grey">Borrar</font></h3></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{DisplayData}</TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </Content>
+    </Layout>
+    
   );
 };
 

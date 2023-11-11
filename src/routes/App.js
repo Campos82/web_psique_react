@@ -7,19 +7,22 @@ import PacientesEdit from "../view/Pacientes/PacientesEdit";
 import Psicologos from "../view/Psicologos/Psicologos";
 import PsicologosAdd from "../view/Psicologos/PsicologosAdd";
 import PsicologosEdit from "../view/Psicologos/PsicologosEdit";
+import Calendario from "../view/Calendario/Calendario";
 import Agenda from "../view/Agenda/Agenda";
 import AgendaAdd from "../view/Agenda/AgendaAdd";
 import AgendaEdit from "../view/Agenda/AgendaEdit";
 import Expedientes from "../view/Expedientes/Expedientes";
 import ExpedientesAdd from "../view/Expedientes/ExpedientesAdd";
 import ExpedientesEdit from "../view/Expedientes/ExpedientesEdit";
+import ExpedientesVistas from "../view/Expedientes/ExpedientesVista";
+import ExpedientesConsulta from "../view/Expedientes/ExpedientesConsulta";
 import Layout from "../containers/Layout";
 import "../styles/App.css";
 
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
+      {/*<Layout>*/}
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/pacientes" element={<Pacientes />}></Route>
@@ -36,13 +39,17 @@ function App() {
           <Route path="/agenda-add" element={<AgendaAdd />}></Route>
           <Route path="/agenda-edit/:id" element={<AgendaEdit />}></Route>
 
-          <Route path="/expedientes" element={<Expedientes />}></Route>
+          {/*<Route path="/expedientes" element={<Expedientes />}></Route>*/}
+          <Route path="/expedientes" element={<ExpedientesVistas />}></Route>
           <Route path="/expedientes-add" element={<ExpedientesAdd />}></Route>
           <Route path="/expedientes-edit/:id" element={<ExpedientesEdit />}></Route>
+          <Route path="/expedientes-consulta/:id" element={<ExpedientesConsulta />}></Route>
+
+          <Route path="/calendario" element={<Calendario />}></Route>
           
           <Route path="/login" element={<Login />}></Route>
         </Routes>
-      </Layout>
+      {/*</Layout>*/}
     </BrowserRouter>
   );
 }

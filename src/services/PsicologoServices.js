@@ -18,5 +18,12 @@ class PsicologoService {
   deletePsicologo(idPsicolgo) {
     return axios.delete(PSICOLOGO_API_BASE_URL + "/" + idPsicolgo);
   }
+  async getPsicologos() {
+    const response = await axios.get(PSICOLOGO_API_BASE_URL);
+    const psicologos= response.data;
+    console.log(psicologos);
+    return psicologos;
+
+  }
 }
 export default new PsicologoService();

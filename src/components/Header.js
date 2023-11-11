@@ -7,6 +7,33 @@ const Header = () => {
       {/* <img src="./icons/icon_menu.svg" alt="menu" className="menu" /> */}
       <div className="navbar-left">
         {/* <img src="./logos/logo_yard_sale.svg" alt="logo" className="logo" /> */}
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/pacientes">Pacientes</a>
+          </li>
+          <li>
+            <a href="/agenda">Citas</a>
+          </li>
+          <li>
+            <a href="/expedientes">Expedientes</a>
+          </li>
+          <li>
+            <a href="/psicologos">Psicologos</a>
+          </li>
+          <li>
+            <a href="/calendario">Calendario</a>
+          </li>
+        </ul>
+      </div>
+      <div className="navbar-right">
+        <ul>
+          <li>
+            <a href="/"> Salir </a>
+          </li>
+        </ul>
       </div>
     </nav>
   );

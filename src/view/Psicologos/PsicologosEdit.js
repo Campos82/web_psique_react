@@ -55,6 +55,9 @@ const PsicologoEdit = () => {
   const handleEspecialidad = (event) => {
     setEspecialidad(event.target.value);
   };
+  const Cancelar = () => {
+    navigate("/psicologos");
+  };
 
   const handleSubmit = async () => {
     const psicologo = {
@@ -78,55 +81,78 @@ const PsicologoEdit = () => {
   return (
     <Content>
       <h1>EDITAR PSICOLOGO</h1>
-      <label>
-        Nombre:
-        <input
-          type="text"
-          value={nomPsicolgo}
-          onChange={handleNomPsicolgo}
-        />
-      </label>
-      <label>
-        Ap1:
-        <input
-          type="text"
-          value={ap1Psicolgo}
-          onChange={handleAp1Psicolgo}
-        />
-      </label>
-      <label>
-        Ap2:
-        <input
-          type="text"
-          value={ap2Psicolgo}
-          onChange={handleAp2Psicolgo}
-        />
-      </label>
-      <label>
-        Edad:
-        <input
-          type="text"
-          value={edadPsicolgo}
-          onChange={handleEdadPsicolgo}
-        />
-      </label>
-      <label>
-        Sexo:
-        <input
-          type="text"
-          value={sexoPsicolgo}
-          onChange={handleSexoPsicolgo}
-        />
-      </label>
-      <label>
-        Especialidad:
-        <input
-          type="text"
-          value={especialidad}
-          onChange={handleEspecialidad}
-        />
-      </label>
-      <button onClick={handleSubmit}>Actualizar</button>
+
+      <center>
+        <table class="wrapper">
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Nombre:
+                <input type="text" class="redondeado" value={nomPsicolgo} onChange={handleNomPsicolgo} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Ap1:
+                <input type="text" class="redondeado" value={ap1Psicolgo} onChange={handleAp1Psicolgo} />
+              </label>
+            </td>
+            <td>
+              <label class="textoCaja">
+                Ap2:
+                <input type="text" class="redondeado" value={ap2Psicolgo} onChange={handleAp2Psicolgo} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Edad:
+                <input type="text" class="redondeado" value={edadPsicolgo} onChange={handleEdadPsicolgo} />
+              </label>
+            </td>
+            <td>
+              <label class="textoCaja">
+                Sexo:
+                <input type="text" class="redondeado" value={sexoPsicolgo} onChange={handleSexoPsicolgo} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Especialidad:
+                <input type="text" class="redondeado" value={especialidad} onChange={handleEspecialidad} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
+            </td>
+            <td>
+              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
+            </td>
+          </tr>
+        </table>
+      </center>
     </Content>
   );
 };

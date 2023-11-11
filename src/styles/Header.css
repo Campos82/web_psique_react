@@ -10,9 +10,8 @@ body {
     justify-content: space-between;
     text-align: center;
     padding: 0 24px;
-    border-bottom: 10px solid orange;
-    background-color: steelblue;
-    color: white;
+    border-bottom: 5px solid rgb(255, 255, 255);
+    background-color: rgb(158, 70, 180);
   }
   .menu {
     display: none;
@@ -38,8 +37,8 @@ body {
   .navbar-left ul li a,
   .navbar-right ul li a {
     text-decoration: none;
-    color: white;
-    border: 2px solid orange;
+    color: rgb(64, 17, 82);
+    border: 2px solid rgb(255, 255, 255);
     padding: 8px;
     border-radius: 6px;
     font-size: 20px;
@@ -48,7 +47,7 @@ body {
   .navbar-left ul li a:hover,
   .navbar-right ul li a:hover {
     background-color: white;
-    color: orange;
+    color: rgb(79, 25, 110);
   }
   .navbar-email {
     color: white;
@@ -81,4 +80,8 @@ body {
     .navbar-email {
       display: none;
     }
+  }
+
+  .images{
+    background-image: "../images/logo.png";
   }

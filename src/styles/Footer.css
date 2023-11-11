@@ -1,11 +1,11 @@
 footer {
-    position: relative;
+    position:relative;
     bottom: 0px;
     left: 0;
     width: 100%;
     text-align: center;
-    background-color: steelblue;
+    background-color: rgb(55, 6, 61);
     color: white;
-    border-top: 10px solid orange;
+    border-top: 10px solid rgb(255, 0, 119);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
   }

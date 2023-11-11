@@ -10,19 +10,35 @@ const ExpedienteEdit = () => {
   const [histClinica, setHistClinica] = useState("");
   const [familiograma, setFamiliograma] = useState("");
   const [seguimiento, setSeguimiento] = useState("");
+  const [idPaciente, setidPaciente] = useState("");
+  const [nomPaciente, setnomPaciente] = useState("");
+  const [ap1Paciente, setap1Paciente] = useState("");
+  const [ap2Paciente, setap2Paciente] = useState("");
+
 
   const navigate = useNavigate();
+
+  const server='http://localhost:4002';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4002/expedientes/${id}`);
-        const data = response.data;
+        const {data}=await axios.get(`${server}/expedientes/${id}?filter=` + JSON.stringify({
+          "include": [
+            {
+              "relation": "expediente_pacientes"
+            },
+          ]
+        }));
         setPadecimientos(data.padecimientos);
         setDiagnostico(data.diagnostico);
         setHistClinica(data.histClinica);
         setFamiliograma(data.familiograma);
         setSeguimiento(data.seguimiento);
+        setidPaciente(data.idPaciente);
+        setnomPaciente(data.expediente_pacientes.nomPaciente);
+        setap1Paciente(data.expediente_pacientes.ap1Paciente);
+        setap2Paciente(data.expediente_pacientes.ap2Paciente);
       } catch (error) {
         console.error("Error al obtener el expediente:", error);
       }
@@ -50,6 +66,11 @@ const ExpedienteEdit = () => {
   const handleSeguimiento = (event) => {
     setSeguimiento(event.target.value);
   };
+  const Cancelar = () => {
+    navigate("/expedientes");
+  };
+
+
 
   const handleSubmit = async () => {
     const expediente = {
@@ -58,11 +79,15 @@ const ExpedienteEdit = () => {
       histClinica,
       familiograma,
       seguimiento,
+      idPaciente,
     };
+
+    console.log(expediente);
 
     try {
       await axios.put(`http://localhost:4002/expedientes/${id}`, expediente);
-      navigate("/expedientes");
+      //navigate("/expedientes");
+      navigate(`/expedientes-consulta/${id}`);
     } catch (error) {
       console.error("Error al actualizar el expediente:", error);
     }
@@ -71,49 +96,86 @@ const ExpedienteEdit = () => {
   /* value=() recibe el dato que va a presentar en campo de texto */
   return (
     <Content>
-      <h1>EDITAR PSICOLOGO</h1>
-      <label>
-        Padecimientos:
-        <input
-          type="text"
-          value={padecimientos}
-          onChange={handlePadecimientos}
-        />
-      </label>
-      <label>
-        Diagnóstico:
-        <input
-          type="text"
-          value={diagnostico}
-          onChange={handleDiagnostico}
-        />
-      </label>
-      <label>
-        Historia Clínica:
-        <input
-          type="text"
-          value={histClinica}
-          onChange={handleHistClinica}
-        />
-      </label>
-      <label>
-        Familiograma:
-        <input
-          type="text"
-          value={familiograma}
-          onChange={handleFamiliograma}
-        />
-      </label>
-      <label>
-        Seguimiento:
-        <input
-          type="text"
-          value={seguimiento}
-          onChange={handleSeguimiento}
-        />
-      </label>
+      <h1>EDITAR EXPEDIENTE</h1>
+      <center>
+        <table class="wrapper">
+          <tr>
+            <td>
+              <label>
+                <h3>{nomPaciente+" "+ap1Paciente+" "+ap2Paciente}</h3>
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Padecimientos:
+                <input type="text" class="redondeado" value={padecimientos} onChange={handlePadecimientos} />
+              </label>
+            </td>
+            <td>
+              <label class="textoCaja">
+                Diagnóstico:
+                <input type="text" class="redondeado" value={diagnostico} onChange={handleDiagnostico} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Historia Clínica:
+                <input type="text" class="redondeado" value={histClinica} onChange={handleHistClinica} />
+              </label>
+            </td>
+            <td>
+              <label class="textoCaja">
+                Familiograma:
+                <input type="text" class="redondeado" value={familiograma} onChange={handleFamiliograma} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Seguimiento:
+                <input type="text" class="redondeado" value={seguimiento} onChange={handleSeguimiento} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
+            </td>
+            <td>
+              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
+            </td>
+          </tr>
+        </table>
+      </center>
       
-      <button onClick={handleSubmit}>Actualizar</button>
+      
+      
+      
+      
+      
+      
+      
+      
     </Content>
   );
 };

@@ -14,46 +14,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import PacienteServices from "../../services/PacienteServices";
+import Layout from "../../containers/Layout";
 
 const Expedientes = () => {
   const[expediente, setExpediente]=useState([]);
-  /*const[paciente, setPaciente]=useState([]);*/
   
   const server='http://localhost:4002';
 
   const getData=async()=>{
-    const {data}=await axios.get(`${server}/expedientes`);
+    const {data}=await axios.get(`${server}/expedientes?filter=` + JSON.stringify({
+      "include": [
+        {
+          "relation": "expediente_pacientes"
+        },
+      ]
+    }));
     console.log(data);
     setExpediente(data);
   };
-
-  /*const getDataP=async()=>{
-    const {data}=await axios.get(`${server}/pacientes`);
-    console.log(data);
-    setPaciente(data);
-  };*/
 
   useEffect(()=>{
     getData();
   },[]
   );
-
-  /*const DisplayDataP = paciente.map((info) => {
-    return (
-      <TableRow
-        key={info.idPaciente}
-        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      >
-        <TableCell component="th" scope="row">
-          {info.idPaciente}
-        </TableCell>
-        <TableCell>{info.nomPaciente}</TableCell>
-        <TableCell>{info.ap1Paciente}</TableCell>
-        <TableCell>{info.ap2Paciente}</TableCell>
-      </TableRow>
-    );
-  });*/
 
   const DisplayData = expediente.map((info) => {
     return (
@@ -61,12 +44,12 @@ const Expedientes = () => {
         key={info.idExpediente}
         sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
       >
-        <TableCell component="th" scope="row">
+        {/*<TableCell component="th" scope="row">
           {info.idExpediente}
-        </TableCell>
-        <TableCell>{      }</TableCell>
-        <TableCell>{      }</TableCell>
-        <TableCell>{      }</TableCell>
+    </TableCell>*/}
+        <TableCell>{info.expediente_pacientes.nomPaciente}</TableCell>
+        <TableCell>{info.expediente_pacientes.ap1Paciente}</TableCell>
+        <TableCell>{info.expediente_pacientes.ap2Paciente}</TableCell>
         <TableCell>{info.padecimientos}</TableCell>
         <TableCell>{info.diagnostico}</TableCell>
         <TableCell>{info.histClinica}</TableCell>
@@ -95,35 +78,39 @@ const Expedientes = () => {
   });
 
   return (
-    <Content>
-      <h1> EXPEDIENTES </h1>
-      <a href="/expedientes-add">
-        <Button variant="contained" startIcon={<PersonAddIcon />}>
-          Agregar Expediente
-        </Button>
-      </a>
-      <h3>Expediente de los pacientes</h3>
-      <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>    </TableCell>
-                <TableCell>Paciente</TableCell>
-                <TableCell>Ap1</TableCell>
-                <TableCell>Ap2</TableCell>
-                <TableCell>Padecimientos</TableCell>
-                <TableCell>Diagnostico</TableCell>
-                <TableCell>HistClinica</TableCell>
-                <TableCell>Familiograma</TableCell>
-                <TableCell>Seguimiento</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{DisplayData}</TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </Content>
+    <Layout>
+      <Content>
+        <h1> EXPEDIENTES </h1>
+        <a href="/expedientes-add">
+          <Button variant="contained" startIcon={<PersonAddIcon />}>
+            Agregar Expediente
+          </Button>
+        </a>
+        <h3>Expediente de los pacientes</h3>
+        <div>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell><h3>Paciente</h3></TableCell>
+                  <TableCell><h3>Ap1</h3></TableCell>
+                  <TableCell><h3>Ap2</h3></TableCell>
+                  <TableCell><h3>Padecimientos</h3></TableCell>
+                  <TableCell><h3>Diagnostico</h3></TableCell>
+                  <TableCell><h3>HistClinica</h3></TableCell>
+                  <TableCell><h3>Familiograma</h3></TableCell>
+                  <TableCell><h3>Seguimiento</h3></TableCell>
+                  <TableCell><h3><font color="grey">Editar</font></h3></TableCell>
+                  <TableCell><h3><font color="grey">Borrar</font></h3></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{DisplayData}</TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </Content>
+    </Layout>
+    
   );
 };
 

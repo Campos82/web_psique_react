@@ -9,16 +9,30 @@ const AgendaEdit = (id) => {
   const [comentario, setComentario] = useState("");
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
+  const [idPaciente, setidPaciente] = useState("");
+  const [nomPaciente, setnomPaciente] = useState("");
+  const [ap1Paciente, setap1Paciente] = useState("");
+  const [ap2Paciente, setap2Paciente] = useState("");
   
   const routeParams = useParams();
   const navigate = useNavigate();
   const server = `http://localhost:4002`;
 
   const getData = async () => {
-    const { data } = await axios.get(`${server}/agenda/${routeParams.id}`);
+    const {data}=await axios.get(`${server}/agenda/${routeParams.id}?filter=` + JSON.stringify({
+      "include": [
+        {
+          "relation": "agenda_pacientes"
+        },
+      ]
+    }));
     setComentario(data.comentario);
     setFecha(data.fecha);
     setHora(data.hora);
+    setidPaciente(data.idPaciente)
+    setnomPaciente(data.agenda_pacientes.nomPaciente);
+    setap1Paciente(data.agenda_pacientes.ap1Paciente);
+    setap2Paciente(data.agenda_pacientes.ap2Paciente);
   };
 
   useEffect(() => {
@@ -34,51 +48,89 @@ const AgendaEdit = (id) => {
   const handleHora = (event) => {
     setHora(event.target.value);
   };
-  
+  const Cancelar = () => {
+    navigate("/agenda");
+  };
+
   const handleSubmit = () => {
     let agenda = {
       comentario: comentario,
       fecha: fecha,
       hora: hora,
+      idPaciente: idPaciente,
     };
     AgendaServices.updateAgenda(agenda, routeParams.id);
     navigate("/agenda");
   };
-
+  
   return (
     <Content>
       <h1>EDITAR AGENDA</h1>
-      <label>
-        Comentario:
-        <input
-          type="text"
-          name="comentario"
-          value={comentario}
-          onChange={handleComentario}
-        />
-      </label>
-
-      <label>
-        Fecha:
-        <input
-          type="text"
-          name="fecha"
-          value={fecha}
-          onChange={handleFecha}
-        />
-      </label>
-
-      <label>
-        Hora:
-        <input
-          type="text"
-          name="hora"
-          value={hora}
-          onChange={handleHora}
-        />
-      </label>
-
-      <button onClick={handleSubmit}>Actualizar</button>
+      <center>
+        <table class="wrapper">
+          <tr>
+            <td>
+              <label class="textoCaja">
+                <font color="grey"><h3>{nomPaciente+" "+ap1Paciente+" "+ap2Paciente}</h3>  </font>
+                {/*<input type="text" class="redondeado" 
+                  value={nomPaciente+" "+ap1Paciente+" "+ap2Paciente} readOnly/>*/}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Comentario:
+                <input type="text" class="redondeado" name="comentario"  value={comentario} onChange={handleComentario} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Fecha:
+                <input type="text" class="redondeado" name="fecha" value={fecha} onChange={handleFecha} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="textoCaja">
+                Hora:
+                <input type="text" class="redondeado" name="hora" value={hora} onChange={handleHora} />
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
+            </td>
+            <td>
+              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
+            </td>
+          </tr>
+        </table>
+      </center>
     </Content>
   );
 };

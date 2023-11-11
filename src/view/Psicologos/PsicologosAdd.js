@@ -31,6 +31,9 @@ const PsicologosAdd = () => {
     const handleEspecialidad = (event) => {
         setEspecialidad(event.target.value);
     };
+    const Cancelar = () => {
+        navigate("/pacientes");
+      };
     
     const handleSubmit = async () => {
         let psicologo = {
@@ -54,37 +57,79 @@ const PsicologosAdd = () => {
     return (
         <Content>
             <h1>CAPTURA DE PSICÓLOGO</h1>
-            <label>
-                Psicólogo:
-                <input type="text" name="nomPsicologo" onChange={handleNomPsicologo} />
-            </label>
-            &nbsp; &nbsp;
-            <label>
-                Ap1:
-                <input type="text" name="ap1Psicologo" onChange={handleAp1Psicologo} />
-            </label>
-            &nbsp; &nbsp;
-            <label>
-                Ap2:
-                <input type="text" name="ap2Psicologo" onChange={handleAp2Psicologo} />
-            </label>
-            &nbsp; &nbsp;
-            <label>
-                Edad:
-                <input type="text" name="edadPsicologo" onChange={handleEdadPsicologo} />
-            </label>
-            &nbsp; &nbsp;
-            <label>
-                Sexo:
-                <input type="text" name="sexoPsicologo" onChange={handleSexoPsicologo} />
-            </label>
-            &nbsp; &nbsp;
-            <label>
-                Especialidad:
-                <input type="text" name="especialidad" onChange={handleEspecialidad} />
-            </label>
-            &nbsp; &nbsp; &nbsp;
-            <button onClick={handleSubmit}> Ingresar </button>
+            <center>
+                <table class="wrapper">
+                    <tr>
+                        <td>
+                            <label class="textoCaja">
+                                Psicólogo:
+                                <input type="text" class="redondeado" name="nomPsicologo" onChange={handleNomPsicologo} />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="textoCaja">
+                                Ap1:
+                                <input type="text" class="redondeado" name="ap1Psicologo" onChange={handleAp1Psicologo} />
+                            </label>
+                        </td>
+                        <td>
+                            <label class="textoCaja">
+                                Ap2:
+                                <input type="text" class="redondeado" name="ap2Psicologo" onChange={handleAp2Psicologo} />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="textoCaja">
+                                Edad:
+                                <input type="text" class="redondeado" name="edadPsicologo" onChange={handleEdadPsicologo} />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="textoCaja">
+                                Sexo:
+                                <input type="text" class="redondeado" name="sexoPsicologo" onChange={handleSexoPsicologo} />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="textoCaja">
+                                Especialidad:
+                                <input type="text" class="redondeado" name="especialidad" onChange={handleEspecialidad} />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="estiloBoton" onClick={handleSubmit}> Ingresar </button>
+                        </td>
+                        <td>
+                            <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
+                        </td>
+                    </tr>
+                </table>
+            </center>
         </Content>
     );
 };
