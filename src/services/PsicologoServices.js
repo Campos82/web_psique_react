@@ -3,9 +3,7 @@ import axios from "axios";
 const PSICOLOGO_API_BASE_URL = "http://localhost:4002/psicologos";
 
 class PsicologoService {
-  getPsicologo() {
-    return axios.get(PSICOLOGO_API_BASE_URL);
-  }
+  
   createPsicologo(psicologo) {
     return axios.post(PSICOLOGO_API_BASE_URL, psicologo);
   }
@@ -23,7 +21,15 @@ class PsicologoService {
     const psicologos= response.data;
     console.log(psicologos);
     return psicologos;
-
   }
+  async getPsicologo(idUsuario){
+    try {
+       const response = await axios.get(`${PSICOLOGO_API_BASE_URL}?filter[where][idUsuario]=${idUsuario}`);
+       const psicologo = response.data;
+       return psicologo;
+     } catch (error) {
+       console.error(error);
+     }
+   }
 }
 export default new PsicologoService();

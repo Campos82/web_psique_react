@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Content from "../../components/Content";
 import axios from "axios";
+import "../../styles/formularios.css";
 
 const ExpedienteEdit = () => {
   const { id } = useParams();
@@ -15,21 +16,23 @@ const ExpedienteEdit = () => {
   const [ap1Paciente, setap1Paciente] = useState("");
   const [ap2Paciente, setap2Paciente] = useState("");
 
-
   const navigate = useNavigate();
 
-  const server='http://localhost:4002';
+  const server = "http://localhost:4002";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {data}=await axios.get(`${server}/expedientes/${id}?filter=` + JSON.stringify({
-          "include": [
-            {
-              "relation": "expediente_pacientes"
-            },
-          ]
-        }));
+        const { data } = await axios.get(
+          `${server}/expedientes/${id}?filter=` +
+            JSON.stringify({
+              include: [
+                {
+                  relation: "expediente_pacientes",
+                },
+              ],
+            })
+        );
         setPadecimientos(data.padecimientos);
         setDiagnostico(data.diagnostico);
         setHistClinica(data.histClinica);
@@ -70,8 +73,6 @@ const ExpedienteEdit = () => {
     navigate("/expedientes");
   };
 
-
-
   const handleSubmit = async () => {
     const expediente = {
       padecimientos,
@@ -97,85 +98,69 @@ const ExpedienteEdit = () => {
   return (
     <Content>
       <h1>EDITAR EXPEDIENTE</h1>
-      <center>
-        <table class="wrapper">
-          <tr>
-            <td>
-              <label>
-                <h3>{nomPaciente+" "+ap1Paciente+" "+ap2Paciente}</h3>
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Padecimientos:
-                <input type="text" class="redondeado" value={padecimientos} onChange={handlePadecimientos} />
-              </label>
-            </td>
-            <td>
-              <label class="textoCaja">
-                Diagnóstico:
-                <input type="text" class="redondeado" value={diagnostico} onChange={handleDiagnostico} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Historia Clínica:
-                <input type="text" class="redondeado" value={histClinica} onChange={handleHistClinica} />
-              </label>
-            </td>
-            <td>
-              <label class="textoCaja">
-                Familiograma:
-                <input type="text" class="redondeado" value={familiograma} onChange={handleFamiliograma} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Seguimiento:
-                <input type="text" class="redondeado" value={seguimiento} onChange={handleSeguimiento} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
-            </td>
-            <td>
-              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
-            </td>
-          </tr>
-        </table>
-      </center>
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      <div className="div-formulario">
+        <div>
+          <label>
+            Padecimientos:
+            <input
+              type="text"
+              value={padecimientos}
+              onChange={handlePadecimientos}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Diagnóstico:
+            <input
+              type="text"
+              value={diagnostico}
+              onChange={handleDiagnostico}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Historia Clínica:
+            <input
+              type="text"
+              value={histClinica}
+              onChange={handleHistClinica}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Familiograma:
+            <input
+              type="text"
+              value={familiograma}
+              onChange={handleFamiliograma}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Seguimiento:
+            <input
+              type="text"
+              value={seguimiento}
+              onChange={handleSeguimiento}
+            />
+          </label>
+        </div>
+        <div>
+          <button class="estiloBoton" onClick={handleSubmit}>
+            Actualizar
+          </button>
+        </div>
+        <div>
+          <button class="estiloBoton" onClick={Cancelar}>
+            {" "}
+            Cancelar{" "}
+          </button>
+        </div>
+      </div>
     </Content>
   );
 };

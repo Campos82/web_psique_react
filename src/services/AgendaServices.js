@@ -18,5 +18,14 @@ class AgendaService {
   deleteAgenda(idAgenda) {
     return axios.delete(AGENDA_API_BASE_URL + "/" + idAgenda);
   }
+  async getAgendaIdP(idPaciente) {
+    try {
+      const response = await axios.get(`${AGENDA_API_BASE_URL}?filter[where][idPaciente]=${idPaciente}`);
+      const agenda= response.data;
+      return agenda;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 export default new AgendaService();

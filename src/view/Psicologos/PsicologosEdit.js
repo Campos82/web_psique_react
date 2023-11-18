@@ -2,35 +2,50 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Content from "../../components/Content";
 import axios from "axios";
+import UsuariosServices from "../../services/UsuariosServices";
+import PsicologoServices from "../../services/PsicologoServices";
 
 const PsicologoEdit = () => {
-  const { id } = useParams();
-  const [nomPsicolgo, setNomPsicologo] = useState("");  {/* nomPsicolgo, asi esta en el loopback */}
-  const [ap1Psicolgo, setAp1Psicologo] = useState("");
-  const [ap2Psicolgo, setAp2Psicologo] = useState("");
-  const [edadPsicolgo, setEdadPsicologo] = useState("");
-  const [sexoPsicolgo, setSexoPsicologo] = useState("");
+  const [idPsicologo, setidPsicologo] = useState("")
+  const usuarioString = sessionStorage.getItem('usuario');
+  const usuario = JSON.parse(usuarioString);
+  const [nomPsicologo, setNomPsicologo] = useState("");
+  const [ap1Psicologo, setAp1Psicologo] = useState("");
+  const [ap2Psicologo, setAp2Psicologo] = useState("");
+  const [edadPsicologo, setEdadPsicologo] = useState("");
+  const [sexoPsicologo, setSexoPsicologo] = useState("");
   const [especialidad, setEspecialidad] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [idUsuario, setidUsuario] = useState("");
+  
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4002/psicologos/${id}`);
-        const data = response.data;
-        setNomPsicologo(data.nomPsicolgo);  {/* nomPsicolgo, aqui recibe los datos desde el loopback */}
-        setAp1Psicologo(data.ap1Psicolgo);
-        setAp2Psicologo(data.ap2Psicolgo);
-        setEdadPsicologo(data.edadPsicolgo);
-        setSexoPsicologo(data.sexoPsicolgo);
-        setEspecialidad(data.especialidad);
-      } catch (error) {
-        console.error("Error al obtener el psicólogo:", error);
-      }
-    };
+  const getData = async () => {
+    const response = await axios.get(`http://localhost:4002/psicologos?filter=` + JSON.stringify({
+      "where": {
+        "idPsicologo": usuario.idPsicologo
+      },
+      "include": [{
+        "relation": "psicologos_usuarios"
+      }]
+    }));
+    const data = response.data;
+    setNomPsicologo(data.psicologos_usuarios.nombre);  {/* nomPsicolgo, aqui recibe los datos desde el loopback */}
+    setAp1Psicologo(data.psicologos_usuarios.ap1);
+    setAp2Psicologo(data.psicologos_usuarios.ap2);
+    setEdadPsicologo(data.psicologos_usuarios.edad);
+    setSexoPsicologo(data.psicologos_usuarios.sexo);
+    setCorreo(data.psicologos_usuarios.correo);
+    setContrasena(data.psicologos_usuarios.contrasena);
+    setidUsuario(data.idUsuario);
+    setEspecialidad(data.especialidad);
 
-    fetchData();
-  }, [id]);
+};
+useEffect(() => {
+  getData();
+}, []);
 
   const handleNomPsicolgo = (event) => {
     setNomPsicologo(event.target.value);
@@ -55,104 +70,89 @@ const PsicologoEdit = () => {
   const handleEspecialidad = (event) => {
     setEspecialidad(event.target.value);
   };
+  const handleCorreo = (event) => {
+    setCorreo(event.target.value);
+  };
   const Cancelar = () => {
     navigate("/psicologos");
   };
 
   const handleSubmit = async () => {
-    const psicologo = {
-      nomPsicolgo,
-      ap1Psicolgo,
-      ap2Psicolgo,
-      edadPsicolgo,
-      sexoPsicolgo,
-      especialidad,
+    let usuario2 = {
+      nombre: nomPsicologo,
+      ap1: ap1Psicologo,
+      ap2: ap2Psicologo,
+      edad: edadPsicologo,
+      sexo: sexoPsicologo,
+      tipo: "PSI",
+      correo: correo,
+      contrasena: contrasena,
     };
+    console.log(usuario);
 
     try {
-      await axios.put(`http://localhost:4002/psicologos/${id}`, psicologo);
-      navigate("/psicologos");
+      await UsuariosServices.updateUsuario(usuario2,idUsuario);
     } catch (error) {
-      console.error("Error al actualizar el psicólogo:", error);
+      console.error("Error al registrar Paciente:", error);
     }
+    let psicologo={
+      idUsuario:parseInt(idUsuario),
+      especialidad:especialidad
+    }
+    try {
+      await PsicologoServices.updatePsicologo(psicologo, usuario.idPsicologo);
+    } catch (error) {
+      console.error("Error al registrar Paciente:", error);
+    }
+    console.log(idPsicologo);
+    navigate(`/pacientes/${idPsicologo}`);
   };
 
   /* value=() recibe el dato que va a presentar en campo de texto */
   return (
     <Content>
       <h1>EDITAR PSICOLOGO</h1>
-
-      <center>
-        <table class="wrapper">
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Nombre:
-                <input type="text" class="redondeado" value={nomPsicolgo} onChange={handleNomPsicolgo} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Ap1:
-                <input type="text" class="redondeado" value={ap1Psicolgo} onChange={handleAp1Psicolgo} />
-              </label>
-            </td>
-            <td>
-              <label class="textoCaja">
-                Ap2:
-                <input type="text" class="redondeado" value={ap2Psicolgo} onChange={handleAp2Psicolgo} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Edad:
-                <input type="text" class="redondeado" value={edadPsicolgo} onChange={handleEdadPsicolgo} />
-              </label>
-            </td>
-            <td>
-              <label class="textoCaja">
-                Sexo:
-                <input type="text" class="redondeado" value={sexoPsicolgo} onChange={handleSexoPsicolgo} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Especialidad:
-                <input type="text" class="redondeado" value={especialidad} onChange={handleEspecialidad} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
-            </td>
-            <td>
-              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
-            </td>
-          </tr>
-        </table>
-      </center>
+      <div className="div-formulario">
+        <div>
+          <label class="textoCaja"> Nombre: </label>
+          <input type="text" class="redondeado" value={nomPsicologo} onChange={handleNomPsicolgo} />     
+        </div>
+        <div>
+          <label class="textoCaja"> Ap1: </label>
+          <input type="text" class="redondeado" value={ap1Psicologo} onChange={handleAp1Psicolgo} />
+        </div>
+        <div>
+          <label class="textoCaja"> Ap2: </label>
+          <input type="text" class="redondeado" value={ap2Psicologo} onChange={handleAp2Psicolgo} />
+        </div>
+        <div>
+          <label class="textoCaja"> Edad: </label>
+          <input type="text" class="redondeado" value={edadPsicologo} onChange={handleEdadPsicolgo} />
+        </div>
+        <div>
+          <label class="textoCaja"> Sexo: </label>
+          <input type="text" class="redondeado" value={sexoPsicologo} onChange={handleSexoPsicolgo} />
+        </div>
+        <div>
+          <label class="textoCaja"> Especialidad: </label>
+          <input type="text" class="redondeado" value={especialidad} onChange={handleEspecialidad} />    
+        </div>
+        <div>
+          <label for="correo">Correo</label>
+          <input
+            type="text"
+            name="correo"
+            id="correo"
+            value={correo}
+            onChange={handleCorreo}
+            placeholder="Correo"
+          />
+        </div>
+        <div>
+          <button class="estiloBoton" onClick={handleSubmit}>Actualizar</button>
+          <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
+        </div>
+      </div>
     </Content>
   );
 };

@@ -3,7 +3,7 @@ import "../styles/Content.css";
 
 const Content = ({ children }) => {
 
-  return <div className="content scroll">{children}</div>;
+  return <div className="content scroll">    {children}    </div>;
   
 };
 

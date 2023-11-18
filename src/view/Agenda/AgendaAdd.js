@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Content from "../../components/Content";
 import AgendaServices from "../../services/AgendaServices";
 import axios from "axios";
+import Layout from "../../containers/Layout";
 
 // LIBRERIAS FORMULARIOS
 import {
@@ -20,15 +21,26 @@ const AgendaAdd = () => {
   const [hora, setHora] = useState("");
   const [paciente, setPaciente] = useState("");
   const [pacientes, setPacientes] = useState([]);
-
+  const usuarioString = sessionStorage.getItem('usuario');
+  const usuario = JSON.parse(usuarioString);
+ 
   const navigate = useNavigate();
 
   const server = "http://localhost:4002";
 
   const getData = async () => {
-    const { data } = await axios.get(`${server}/pacientes`);
-    console.log(data);
-    setPacientes(data);
+    const data = await axios.get(`${server}/pacientes?filter=` + JSON.stringify({
+      "where": {
+        "idPsicologo": usuario.idPsicologo
+      },
+      "include": [
+        {
+          "relation": "pacientes_usuarios"
+        },
+      ]
+    }));
+    console.log(data.data);
+    setPacientes(data.data);
   };
 
   useEffect(() => {
@@ -64,86 +76,74 @@ const AgendaAdd = () => {
   };
 
   return (
-    <Content>
-      <h1>Programar agenda</h1>
-      <center>
-        <table class="wrapper">
-          <tr>
-            <td>
-              <InputLabel id="paciente"> <h3> Paciente </h3></InputLabel>
-              <select
-                labelId="paciente"
-                class="caja"
-                id="paciente"
-                name="paciente"
-                onChange={handlePaciente}
-              >
-                <option disabled selected>
-                  Selecciona un paciente
+    <Layout>
+      <Content>
+        <h1>Programar cita</h1>
+        <div className="div-formulario">
+          <div>
+            <InputLabel id="paciente">
+              {" "}
+              <h3> Paciente </h3>
+            </InputLabel>
+            <select
+              labelId="paciente"
+              class="caja"
+              id="paciente"
+              name="paciente"
+              onChange={handlePaciente}
+            >
+              <option disabled selected>
+                Selecciona un paciente
+              </option>
+              {pacientes.map((paciente) => (
+                <option value={paciente.idPaciente}>
+                  {paciente.pacientes_usuarios.nombre} {paciente.pacientes_usuarios.ap1}{" "}
+                  {paciente.pacientes_usuarios.ap2}
                 </option>
-                {pacientes.map((paciente) => (
-                  <option value={paciente.idPaciente}>
-                    {paciente.nomPaciente} {paciente.ap1Paciente} {paciente.ap2Paciente}
-                  </option>
-                ))}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Comentario:
-                <input type="text" class="redondeado" name="comentario" onChange={handleComentario} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Fecha:
-                <input type="text" class="redondeado" name="fecha" onChange={handleFecha} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label class="textoCaja">
-                Hora:
-                <input type="text" class="redondeado" name="hora" onChange={handleHora} />
-              </label>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="estiloBoton" onClick={handleSubmit}> Registrar </button>
-            </td>
-            <td>
-              <button class="estiloBoton" onClick={Cancelar}> Cancelar </button>
-            </td>
-          </tr>
-        </table>
-      </center>
-    </Content>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label> Comentario: </label>
+            <textarea
+              name="comentario"
+              for="comentario"
+              onChange={handleComentario}
+              placeholder="Anade un comentario..."
+              maxlength="300"
+            ></textarea>
+          </div>
+          <div>
+            <label> Fecha: </label>
+            <input
+              type="text"
+              class="redondeado"
+              name="fecha"
+              onChange={handleFecha}
+            />
+          </div>
+          <div>
+            <label> Hora: </label>
+            <input
+              type="text"
+              class="redondeado"
+              name="hora"
+              onChange={handleHora}
+            />
+          </div>
+          <div>
+            <button class="estiloBoton" onClick={handleSubmit}>
+              {" "}
+              Registrar{" "}
+            </button>
+            <button class="estiloBoton" onClick={Cancelar}>
+              {" "}
+              Cancelar{" "}
+            </button>
+          </div>
+        </div>
+      </Content>
+    </Layout>
   );
 };
 

@@ -15,21 +15,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Layout from "../../containers/Layout";
+import { useParams } from "react-router-dom";
+import PacienteServices from "../../services/PacienteServices";
 
 const Agenda = () => {
   const [agenda, setAgenda] = useState([]);
+  const [idPsicologo, setidPsicologo] = useState("")
+  const usuarioString = sessionStorage.getItem('usuario');
+  const usuario = JSON.parse(usuarioString);
 
   const server = 'http://localhost:4002';
 
+  const routeParams = useParams();
+
   const getData = async () => {
-    const { data } = await axios.get(`${server}/agenda?filter=` + JSON.stringify({
-      "include": [
-        {
-          "relation": "agenda_pacientes"
-        },
-      ]
-    }));
-    console.log(data);
+    setidPsicologo(usuario.idPsicologo);
+
+    const data = await PacienteServices.getAgendas(usuario.idPsicologo);
+    console.log("-- ag-data --",data);
     setAgenda(data);
   };
 
@@ -46,9 +49,9 @@ const Agenda = () => {
         {/*<TableCell component="th" scope="row">
           {info.idAgenda}
     </TableCell>*/}
-        <TableCell>{info.agenda_pacientes.nomPaciente}</TableCell>
-        <TableCell>{info.agenda_pacientes.ap1Paciente}</TableCell>
-        <TableCell>{info.agenda_pacientes.ap2Paciente}</TableCell>
+        <TableCell>{info.agenda_pacientes.pacientes_usuarios.nombre}</TableCell>
+        <TableCell>{info.agenda_pacientes.pacientes_usuarios.ap1}</TableCell>
+        <TableCell>{info.agenda_pacientes.pacientes_usuarios.ap2}</TableCell>
         <TableCell>{info.comentario}</TableCell>
         <TableCell>{info.fecha}</TableCell>
         <TableCell>{info.hora}</TableCell>
@@ -90,14 +93,14 @@ const Agenda = () => {
               <TableHead>
                 <TableRow>
                   {/*<TableCell>No.</TableCell>*/}
-                  <TableCell><h3>Nombre</h3></TableCell>
-                  <TableCell><h3>Ap1</h3></TableCell>
-                  <TableCell><h3>Ap2</h3></TableCell>
-                  <TableCell><h3>Comentario</h3></TableCell>
-                  <TableCell><h3>Fecha</h3></TableCell>
-                  <TableCell><h3>Hora</h3></TableCell>
-                  <TableCell><h3><font color="grey">Editar</font></h3></TableCell>
-                  <TableCell><h3><font color="grey">Borrar</font></h3></TableCell>
+                  <TableCell><h4>Nombre</h4></TableCell>
+                  <TableCell><h4>Ap1</h4></TableCell>
+                  <TableCell><h4>Ap2</h4></TableCell>
+                  <TableCell><h4>Comentario</h4></TableCell>
+                  <TableCell><h4>Fecha</h4></TableCell>
+                  <TableCell><h4>Hora</h4></TableCell>
+                  <TableCell><h4><font color="grey">Editar</font></h4></TableCell>
+                  <TableCell><h4><font color="grey">Borrar</font></h4></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{DisplayData}</TableBody>

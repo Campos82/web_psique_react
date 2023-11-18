@@ -15,21 +15,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Layout from "../../containers/Layout";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import PacienteServices from "../../services/PacienteServices";
 
 const Expedientes = () => {
   const[expediente, setExpediente]=useState([]);
+  const [idPsicologo, setidPsicologo] = useState("")
+  const usuarioString = sessionStorage.getItem('usuario');
+  const usuario = JSON.parse(usuarioString);
   
   const server='http://localhost:4002';
 
-  const getData=async()=>{
-    const {data}=await axios.get(`${server}/expedientes?filter=` + JSON.stringify({
-      "include": [
-        {
-          "relation": "expediente_pacientes"
-        },
-      ]
-    }));
-    console.log(data);
+  const getData = async () => {
+    setidPsicologo(usuario.idPsicologo);
+
+    const data = await PacienteServices.getExpedientes(usuario.idPsicologo);
+    console.log("-- ag-data --",data);
     setExpediente(data);
   };
 
@@ -47,9 +48,9 @@ const Expedientes = () => {
         {/*<TableCell component="th" scope="row">
           {info.idExpediente}
     </TableCell>*/}
-        <TableCell>{info.expediente_pacientes.nomPaciente}</TableCell>
-        <TableCell>{info.expediente_pacientes.ap1Paciente}</TableCell>
-        <TableCell>{info.expediente_pacientes.ap2Paciente}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.nombre}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.ap1}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.ap2}</TableCell>
         <TableCell>{info.padecimientos}</TableCell>
         <TableCell>{info.diagnostico}</TableCell>
         <TableCell>{info.histClinica}</TableCell>
@@ -58,7 +59,7 @@ const Expedientes = () => {
         <TableCell>
           <IconButton aria-label="editar">
             <a href={`expedientes-edit/${info.idExpediente}`}>
-              <EditIcon color="primary" />
+              <VisibilityIcon color="primary" />
             </a>
           </IconButton>
         </TableCell>
@@ -92,16 +93,16 @@ const Expedientes = () => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell><h3>Paciente</h3></TableCell>
-                  <TableCell><h3>Ap1</h3></TableCell>
-                  <TableCell><h3>Ap2</h3></TableCell>
-                  <TableCell><h3>Padecimientos</h3></TableCell>
-                  <TableCell><h3>Diagnostico</h3></TableCell>
-                  <TableCell><h3>HistClinica</h3></TableCell>
-                  <TableCell><h3>Familiograma</h3></TableCell>
-                  <TableCell><h3>Seguimiento</h3></TableCell>
-                  <TableCell><h3><font color="grey">Editar</font></h3></TableCell>
-                  <TableCell><h3><font color="grey">Borrar</font></h3></TableCell>
+                  <TableCell><h4>Paciente</h4></TableCell>
+                  <TableCell><h4>Ap1</h4></TableCell>
+                  <TableCell><h4>Ap2</h4></TableCell>
+                  <TableCell><h4>Padecimientos</h4></TableCell>
+                  <TableCell><h4>Diagnostico</h4></TableCell>
+                  <TableCell><h4>HistClinica</h4></TableCell>
+                  <TableCell><h4>Familiograma</h4></TableCell>
+                  <TableCell><h4>Seguimiento</h4></TableCell>
+                  <TableCell><h4><font color="grey">Editar</font></h4></TableCell>
+                  <TableCell><h4><font color="grey">Borrar</font></h4></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{DisplayData}</TableBody>

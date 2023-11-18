@@ -15,21 +15,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Layout from "../../containers/Layout";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import PacienteServices from "../../services/PacienteServices";
 
 const ExpedientesVistas = () => {
   const[expediente, setExpediente]=useState([]);
+  const [idPsicologo, setidPsicologo] = useState("")
+  const usuarioString = sessionStorage.getItem('usuario');
+  const usuario = JSON.parse(usuarioString);
   
   const server='http://localhost:4002';
 
-  const getData=async()=>{
-    const {data}=await axios.get(`${server}/expedientes?filter=` + JSON.stringify({
-      "include": [
-        {
-          "relation": "expediente_pacientes"
-        },
-      ]
-    }));
-    console.log(data);
+  const getData = async () => {
+    setidPsicologo(usuario.idPsicologo);
+
+    const data = await PacienteServices.getExpedientes(usuario.idPsicologo);
+    console.log("-- ag-data --",data);
     setExpediente(data);
   };
 
@@ -47,14 +48,14 @@ const ExpedientesVistas = () => {
         {/*<TableCell component="th" scope="row">
           {info.idExpediente}
     </TableCell>*/}
-        <TableCell>{info.expediente_pacientes.nomPaciente}</TableCell>
-        <TableCell>{info.expediente_pacientes.ap1Paciente}</TableCell>
-        <TableCell>{info.expediente_pacientes.ap2Paciente}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.nombre}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.ap1}</TableCell>
+        <TableCell>{info.expediente_pacientes.pacientes_usuarios.ap2}</TableCell>
         <TableCell>{info.seguimiento}</TableCell>
         <TableCell>
           <IconButton aria-label="Consultar">
             <a href={`expedientes-consulta/${info.idExpediente}`}>
-              <EditIcon color="primary" />
+              <VisibilityIcon color="primary" />
             </a>
           </IconButton>
         </TableCell>
@@ -88,12 +89,12 @@ const ExpedientesVistas = () => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell><h3>Paciente</h3></TableCell>
-                  <TableCell><h3>Ap1</h3></TableCell>
-                  <TableCell><h3>Ap2</h3></TableCell>
-                  <TableCell><h3>Seguimiento</h3></TableCell>
-                  <TableCell><h3><font color="grey">Consultar</font></h3></TableCell>
-                  <TableCell><h3><font color="grey">Eliminar</font></h3></TableCell>
+                  <TableCell><h4>Paciente</h4></TableCell>
+                  <TableCell><h4>Ap1</h4></TableCell>
+                  <TableCell><h4>Ap2</h4></TableCell>
+                  <TableCell><h4>Seguimiento</h4></TableCell>
+                  <TableCell><h4><font color="grey">Consultar</font></h4></TableCell>
+                  <TableCell><h4><font color="grey">Eliminar</font></h4></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{DisplayData}</TableBody>

@@ -21,7 +21,7 @@ const Header = () => {
             <a href="/expedientes">Expedientes</a>
           </li>
           <li>
-            <a href="/psicologos">Psicologos</a>
+            <a href="/psicologos-edit">Perfil</a>
           </li>
           <li>
             <a href="/calendario">Calendario</a>
